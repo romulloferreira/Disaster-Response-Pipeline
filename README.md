@@ -42,5 +42,6 @@ The web app will display visualizations of the data.
 
 ## Licensing, Authors, Acknowledgements<a name="licensing"></a>
 
+The data was provided by figure8.
 I am very grateful for challenge provide by Udacity.
 
