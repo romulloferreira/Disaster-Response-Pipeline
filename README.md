@@ -9,8 +9,9 @@ Building a ETL pipeline and  Machine Learning pipeline (build a supervised machi
 2. [Project Motivation](#motivation)
 3. [Scripts and Instructions](#scripts)
 4. [File Descriptions](#files)
-5. [Results](#results)
-6. [Licensing, Authors, and Acknowledgements](#licensing)
+5. [Screenshots](#screenshots)
+6. [Results](#results)
+7. [Licensing, Authors, and Acknowledgements](#licensing)
 
 ## Installation <a name="installation"></a>
 
@@ -71,6 +72,12 @@ The following are the files available in this repository:
 * `/app/templates/master.html` - main page of the webapp.
 
 * `/app/templates/go.html` - results page of the webapp.
+
+## Screenshots<a name="screenshots"></a>
+
+<p align="center"><img src="images/message_classify.PNG" align="middle"/></p>
+
+<p align="center"><img src="images/top20_categories.jpg" align="middle"/></p>
 
 
 ## Results<a name="results"></a>
