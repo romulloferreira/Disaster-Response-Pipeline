@@ -10,6 +10,23 @@ from flask import render_template, request, jsonify
 from plotly.graph_objs import Bar
 from sklearn.externals import joblib
 from sqlalchemy import create_engine
+import nltk
+nltk.download(['punkt', 'wordnet', 'stopwords'])
+
+from nltk.tokenize import word_tokenize
+from nltk.stem import WordNetLemmatizer
+from nltk.corpus import stopwords
+
+from sklearn.pipeline import Pipeline
+from sklearn.metrics import confusion_matrix,classification_report, accuracy_score, recall_score, precision_score, f1_score
+import sklearn.metrics as metrics
+from sklearn.model_selection import train_test_split,  GridSearchCV 
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.feature_extraction.text import CountVectorizer, TfidfTransformer
+from sklearn.multioutput import MultiOutputClassifier
+
+from sqlalchemy import create_engine
+import pickle
 
 
 app = Flask(__name__)
@@ -17,6 +34,9 @@ app = Flask(__name__)
 def tokenize(text):
     tokens = word_tokenize(text)
     lemmatizer = WordNetLemmatizer()
+    
+    # remove stopwords
+    tokens = [t for t in tokens if t not in stopwords.words('english')]
 
     clean_tokens = []
     for tok in tokens:
@@ -48,6 +68,16 @@ def index():
     all_categories = df.iloc[:,4:].sum(axis = 0).sort_values(ascending = False)
     categories_top20 = all_categories.head(20)
     categories_names = list(categories_top20.index)
+    
+    #top 10 words
+   
+    sw = stopwords.words("english")
+    word_srs = pd.Series(' '.join(df['message']).lower().split())
+    words_top5 = word_srs[~word_srs.isin(sw)].value_counts()[:5]
+    words_names = list(words_top5.index)
+    
+    # remove stopwords
+    #tokens = [t for t in tokens if t not in stopwords.words('english')]
     
     
     # create visuals
@@ -87,6 +117,24 @@ def index():
                 },
                 'xaxis': {
                     'title': "categories"
+                }
+            }
+        },
+        {
+            'data': [
+                Bar(
+                    x=words_names,
+                    y=words_top5
+                )
+            ],
+
+            'layout': {
+                'title': 'Top 5 Words',
+                'yaxis': {
+                    'title': "count"
+                },
+                'xaxis': {
+                    'title': "words"
                 }
             }
         }
